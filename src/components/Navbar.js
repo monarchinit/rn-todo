@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { THEME } from "../constans";
 
 export const Navbar = ({ title }) => {
   return (
@@ -11,15 +12,14 @@ export const Navbar = ({ title }) => {
 
 const styles = StyleSheet.create({
   navBarWrapper: {
-    flexDirection: "row",
-    height: "10%",
+    height: 70,
     width: "100%",
-    justifyContent: "center",
-    alignItems: "flex-end",
-    backgroundColor: "black",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: THEME.DARK,
     borderBottomLeftRadius: 7,
     borderBottomRightRadius: 7,
   },
 
-  navBarText: { color: "palevioletred", paddingBottom: 10, fontSize: 25 },
+  navBarText: { color: THEME.RED, paddingBottom: 10, fontSize: 25 },
 });

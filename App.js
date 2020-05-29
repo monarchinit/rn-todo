@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { Navbar } from "./src/components/Navbar";
-import { AddItem } from "./src/components/AddItem";
-import { Todo } from "./src/components/Todo";
+import { MainScreen } from "./src/screens/MainScreen";
+import { TodoScreen } from "./src/screens/TodoScreen";
 
 export default function App() {
   const [todos, setTodos] = useState([]);
+  const [todoScreen, setTodoScreen] = useState(null);
 
   const addTodo = (value) => {
     const todo = { id: Date.now().toString(), value };
@@ -14,33 +15,73 @@ export default function App() {
     });
   };
 
-  console.log(todos);
+  const removeItem = (id) => {
+    const activeTodo = todos.find((el) => el.id === id);
+    Alert.alert(
+      "Remove Item",
+      `Are you sure you want to delete "${activeTodo.value}"`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            setTodoScreen(null);
+            setTodos((setTodos) => setTodos.filter((el) => el.id !== id));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  let contetn = (
+    <MainScreen
+      addTodo={addTodo}
+      todos={todos}
+      removeItem={removeItem}
+      activeTodo={setTodoScreen}
+    ></MainScreen>
+  );
+
+  const changeSaveTodo = (id, value) => {
+    setTodos((prevState) =>
+      prevState.map((el) => {
+        if (el.id === id) {
+          el.value = value;
+        }
+        return el;
+      })
+    );
+  };
+
+  if (!!todoScreen) {
+    const activeTodo = todos.find((el) => el.id === todoScreen);
+    contetn = (
+      <TodoScreen
+        goBack={() => setTodoScreen(null)}
+        activeTodo={activeTodo}
+        removeItem={removeItem}
+        onSave={changeSaveTodo}
+      ></TodoScreen>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <Navbar title="My ToDo :)" />
-      <View style={styles.wrapper}>
-        <AddItem addItem={addTodo} />
-        <View style={styles.wrapperList}>
-          {todos.map((el) => (
-            <Todo key={el.id} todo={el} />
-          ))}
-        </View>
-      </View>
+      <View style={styles.wrapper}>{contetn}</View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    height: "100%",
-    width: "100%",
-    paddingHorizontal: 5,
+  container: {
+    flex: 1,
   },
-  wrapperList: {
-    width: "100%",
+  wrapper: {
+    padding: 15,
   },
 });

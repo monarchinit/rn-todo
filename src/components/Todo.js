@@ -1,25 +1,37 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { THEME } from "../constans";
 
-export const Todo = ({ todo }) => {
+export const Todo = ({ todo, onRemove, activeTodo }) => {
   return (
-    <View style={styles.wrapper}>
-      <Text style={styles.text}>{todo.value}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => activeTodo(todo.id)}
+      onLongPress={() => onRemove(todo.id)}
+    >
+      <View style={styles.wrapper}>
+        <Text style={styles.text}>{todo.value}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: "100%",
-    height: "5%",
+    width: "97%",
+    height: 50,
     alignItems: "flex-start",
     justifyContent: "center",
-    marginBottom: "1%",
-    backgroundColor: "#c1d2dc80",
+    marginBottom: 5,
+    marginHorizontal: 5,
+    backgroundColor: THEME.INPUT_BACK,
     borderRadius: 10,
+    elevation: 8,
+    shadowColor: THEME.DARK,
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 3,
+    shadowOpacity: 0.3,
   },
   text: {
-    // color: "white",
+    paddingHorizontal: 10,
   },
 });
