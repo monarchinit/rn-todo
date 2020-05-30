@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import {
-  View,
-  Modal,
-  StyleSheet,
-  TextInput,
-  Button,
-  Alert,
-} from "react-native";
+import { View, Modal, StyleSheet, TextInput, Alert } from "react-native";
+import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { THEME } from "../constans";
+import { AppButton } from "../ui/AppButton";
 
 export const EditModal = ({ modalVisible, value, onSave, onCancel }) => {
   const [title, setTitle] = useState(value);
@@ -36,19 +31,18 @@ export const EditModal = ({ modalVisible, value, onSave, onCancel }) => {
           maxLength={34}
         ></TextInput>
         <View style={styles.buttoWrapper}>
-          <Button
+          <AppButton
             onPress={() => {
               onCancel();
               setTitle(value);
             }}
-            title="Cancel"
             color={THEME.RED}
-          ></Button>
-          <Button
-            onPress={saveHandler}
-            title="Save"
-            color={THEME.ADD_BUTTON}
-          ></Button>
+          >
+            <MaterialIcons name="cancel" size={24} color="black" />
+          </AppButton>
+          <AppButton onPress={saveHandler} color={THEME.ADD_BUTTON}>
+            <Entypo name="save" size={24} color="black" />
+          </AppButton>
         </View>
       </View>
     </Modal>

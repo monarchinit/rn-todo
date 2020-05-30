@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Button, TextInput, Alert } from "react-native";
+import { View, StyleSheet, TextInput, Alert } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import { THEME } from "../constans";
+import { AppButton } from "../ui/AppButton";
 
 export const AddItem = ({ addItem }) => {
   const [todoItemValue, setTodoItemValue] = useState("");
@@ -24,12 +26,13 @@ export const AddItem = ({ addItem }) => {
         autoCorrect={false}
       ></TextInput>
       <View style={styles.wrapperButton}>
-        <Button
+        <AppButton
           color={THEME.ADD_BUTTON}
           onPress={handleSubmit}
-          style={styles.button}
-          title="Add"
-        ></Button>
+          // style={styles.button}
+        >
+          <AntDesign name="addfile" size={24} color="black" />
+        </AppButton>
       </View>
     </View>
   );
@@ -50,8 +53,8 @@ const styles = StyleSheet.create({
   button: { fontSize: 25, width: 100, height: 30, color: "gray" },
   wrapperButton: {
     width: "100%",
-    height: 30,
-    alignItems: "flex-end",
-    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 });

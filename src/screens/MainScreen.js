@@ -27,7 +27,7 @@ export const MainScreen = ({ addTodo, todos, removeItem, activeTodo }) => {
   return (
     <>
       <AddItem addItem={addTodo} />
-      {content}
+      <View style={styles.contentWrap}>{content}</View>
     </>
   );
 };
@@ -44,5 +44,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     resizeMode: "contain",
+  },
+  contentWrap: {
+    paddingTop: 10,
   },
 });
