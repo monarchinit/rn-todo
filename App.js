@@ -1,12 +1,32 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
 import { Navbar } from "./src/components/Navbar";
 import { MainScreen } from "./src/screens/MainScreen";
 import { TodoScreen } from "./src/screens/TodoScreen";
 
+async function loadApp() {
+  await Font.loadAsync({
+    "Os-reg": require("./assets/fonts/Oswald-Regular.ttf"),
+    "Os-bold": require("./assets/fonts/Oswald-Bold.ttf"),
+  });
+}
+
 export default function App() {
+  const [isReady, setIsReady] = useState(false);
   const [todos, setTodos] = useState([]);
   const [todoScreen, setTodoScreen] = useState(null);
+
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApp}
+        onError={(e) => console.log(e)}
+        onFinish={() => setIsReady(true)}
+      ></AppLoading>
+    );
+  }
 
   const addTodo = (value) => {
     const todo = { id: Date.now().toString(), value };

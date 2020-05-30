@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, Button, Text, View } from "react-native";
+import { StyleSheet, Button, View } from "react-native";
 import { AppCard } from "../ui/AppCard";
 import { THEME } from "../constans";
 import { EditModal } from "../components/EditModal";
+import { AppTextBold } from "../ui/AppTextBold";
 
 export const TodoScreen = ({ activeTodo, goBack, removeItem, onSave }) => {
   const [modal, setModal] = useState(false);
@@ -20,12 +21,11 @@ export const TodoScreen = ({ activeTodo, goBack, removeItem, onSave }) => {
         onCancel={() => setModal(false)}
         onSave={handleSave}
       ></EditModal>
-
       <View style={styles.goBackContainer}>
         <Button onPress={goBack} title="Back" color={THEME.DARK} />
       </View>
       <AppCard>
-        <Text>{activeTodo.value}</Text>
+        <AppTextBold>{activeTodo.value}</AppTextBold>
       </AppCard>
       <View style={styles.buttonContainer}>
         <Button

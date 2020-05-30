@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   input: {
+    fontFamily: "Os-reg",
     height: 40,
     borderColor: THEME.RED,
     borderBottomWidth: 1,

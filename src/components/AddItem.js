@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     margin: 10,
     color: THEME.DARK,
+    fontFamily: "Os-reg",
   },
   button: { fontSize: 25, width: 100, height: 30, color: "gray" },
   wrapperButton: {
