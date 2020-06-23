@@ -1,0 +1,5 @@
+export default {
+  AUTH_SCREEN: "AUTH_SCREEN",
+  MAIN_SCREEN: "MAIN_SCREEN",
+  TODO_SCREEN: "TODO_SCREEN",
+};

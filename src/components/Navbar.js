@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { THEME } from "../constans";
 import { AppTextBold } from "../ui/AppTextBold";
 
@@ -13,7 +13,7 @@ export const Navbar = ({ title }) => {
 
 const styles = StyleSheet.create({
   navBarWrapper: {
-    height: 70,
+    height: 75,
     width: "100%",
     justifyContent: "flex-end",
     alignItems: "center",

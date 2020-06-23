@@ -1,15 +1,18 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import { AppTextBold } from "./AppTextBold";
 import { THEME } from "../constans";
 
 export const AppButton = ({ children, onPress, color = THEME.ADD_BUTTON }) => {
+  const Wrapper =
+    Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
+
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Wrapper onPress={onPress}>
       <View style={{ ...styles.button, backgroundColor: color }}>
         <AppTextBold>{children}</AppTextBold>
       </View>
-    </TouchableOpacity>
+    </Wrapper>
   );
 };
 
