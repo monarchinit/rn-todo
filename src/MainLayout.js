@@ -11,28 +11,6 @@ export const MainLayout = () => {
   const { screenState } = useContext(ScreenContext);
   const [activeTodoId, setActiveTodoId] = useState(null);
 
-  //   const removeItem = (id) => {
-  //     const activeTodo = todos.find((el) => el.id === id);
-  //     Alert.alert(
-  //       "Remove Item",
-  //       `Are you sure you want to delete "${activeTodo.value}"`,
-  //       [
-  //         {
-  //           text: "Cancel",
-  //           style: "cancel",
-  //         },
-  //         {
-  //           text: "OK",
-  //           onPress: () => {
-  //             setTodoScreen(null);
-  //             setTodos((setTodos) => setTodos.filter((el) => el.id !== id));
-  //           },
-  //         },
-  //       ],
-  //       { cancelable: false }
-  //     );
-  //   };
-
   let contetn;
 
   switch (true) {
