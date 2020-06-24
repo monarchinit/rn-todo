@@ -3,6 +3,7 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { TodoState } from "./src/context/todo/TodoState";
 import { MainLayout } from "./src/MainLayout";
+import { ScreenState } from "./src/context/screen/ScreenState";
 
 async function loadApp() {
   await Font.loadAsync({
@@ -25,8 +26,10 @@ export default function App() {
   }
 
   return (
-    <TodoState>
-      <MainLayout></MainLayout>
-    </TodoState>
+    <ScreenState>
+      <TodoState>
+        <MainLayout></MainLayout>
+      </TodoState>
+    </ScreenState>
   );
 }

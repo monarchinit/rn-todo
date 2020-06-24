@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Entypo, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppCard } from "../ui/AppCard";
@@ -6,14 +6,23 @@ import { THEME } from "../constans";
 import { EditModal } from "../components/EditModal";
 import { AppTextBold } from "../ui/AppTextBold";
 import { AppButton } from "../ui/AppButton";
+import { ScreenContext } from "../context/screen/screenContext";
+import { ActiveTodoIdContext } from "../context/activeTodoIdContext/ActiveTodoIdContext";
+import { TodoContext } from "../context/todo/todoContext";
+import screenTypes from "../context/screen/screenTypes";
 
-export const TodoScreen = ({ activeTodo, goBack, removeItem, onSave }) => {
+export const TodoScreen = () => {
   const [modal, setModal] = useState(false);
+  const { changeScreenState } = useContext(ScreenContext);
+  const { activeTodoId } = useContext(ActiveTodoIdContext);
+  const { removeItem, changeSaveTodo, todos } = useContext(TodoContext);
 
   const handleSave = (value) => {
-    onSave(activeTodo.id, value);
+    changeSaveTodo(activeTodo.id, value);
     setModal(false);
   };
+
+  const activeTodo = todos.find((el) => el.id == activeTodoId);
 
   return (
     <View style={styles.container}>
@@ -24,7 +33,10 @@ export const TodoScreen = ({ activeTodo, goBack, removeItem, onSave }) => {
         onSave={handleSave}
       ></EditModal>
       <View style={styles.goBackContainer}>
-        <AppButton onPress={goBack} color={THEME.DARK}>
+        <AppButton
+          onPress={() => changeScreenState({ type: screenTypes.MAIN_SCREEN })}
+          color={THEME.DARK}
+        >
           <Entypo name="back" size={24} color={THEME.RED} />
         </AppButton>
       </View>

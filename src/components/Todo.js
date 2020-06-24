@@ -1,12 +1,21 @@
-import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useContext } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { THEME } from "../constans";
 import { AppTextBold } from "../ui/AppTextBold";
+import { ScreenContext } from "../context/screen/screenContext";
+import screenTypes from "../context/screen/screenTypes";
+import { ActiveTodoIdContext } from "../context/activeTodoIdContext/ActiveTodoIdContext";
 
-export const Todo = ({ todo, onRemove, activeTodo }) => {
+export const Todo = ({ todo, onRemove }) => {
+  const { changeScreenState } = useContext(ScreenContext);
+  const { setActiveTodoId } = useContext(ActiveTodoIdContext);
+
   return (
     <TouchableOpacity
-      onPress={() => activeTodo(todo.id)}
+      onPress={() => {
+        changeScreenState({ type: screenTypes.TODO_SCREEN });
+        setActiveTodoId(todo.id);
+      }}
       onLongPress={() => onRemove(todo.id)}
     >
       <View style={styles.wrapper}>

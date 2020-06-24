@@ -1,20 +1,15 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View, Alert, Keyboard } from "react-native";
-import { TodoContext } from "./context/todo/todoContext";
-import { TodoState } from "./context/todo/TodoState";
 import { Navbar } from "./components/Navbar";
 import { MainScreen } from "./screens/MainScreen";
 import { TodoScreen } from "./screens/TodoScreen";
-import { ScreenState } from "./context/screen/ScreenState";
 import { ScreenContext } from "./context/screen/screenContext";
+import screenTypes from "./context/screen/screenTypes";
+import { ActiveTodoIdContext } from "./context/activeTodoIdContext/ActiveTodoIdContext";
 
 export const MainLayout = () => {
-  const { todos, addTodo, removeItem, changeSaveTodo } = useContext(
-    TodoContext
-  );
-  const { screenState, changeScreenState } = useContext(ScreenContext);
-  const [todoScreen, setTodoScreen] = useState(null);
-  console.log(screenState, "screenState");
+  const { screenState } = useContext(ScreenContext);
+  const [activeTodoId, setActiveTodoId] = useState(null);
 
   //   const removeItem = (id) => {
   //     const activeTodo = todos.find((el) => el.id === id);
@@ -38,39 +33,28 @@ export const MainLayout = () => {
   //     );
   //   };
 
-  let contetn = (
-    <MainScreen
-      addTodo={addTodo}
-      todos={todos}
-      removeItem={removeItem}
-      activeTodo={setTodoScreen}
-    ></MainScreen>
-  );
+  let contetn;
 
-  if (!!todoScreen) {
-    const activeTodo = todos.find((el) => el.id === todoScreen);
-    contetn = (
-      <TodoScreen
-        goBack={() => setTodoScreen(null)}
-        activeTodo={activeTodo}
-        removeItem={(id) => {
-          setTodoScreen(null);
-          removeItem(id);
-        }}
-        onSave={changeSaveTodo}
-      ></TodoScreen>
-    );
+  switch (true) {
+    case screenState === screenTypes.AUTH_SCREEN:
+      break;
+    case screenState === screenTypes.MAIN_SCREEN:
+      contetn = <MainScreen></MainScreen>;
+      break;
+    case screenState === screenTypes.TODO_SCREEN && !!activeTodoId:
+      contetn = <TodoScreen></TodoScreen>;
+      break;
+    default:
+      contetn = <MainScreen></MainScreen>;
   }
 
   return (
-    <ScreenState>
-      <TodoState>
-        <View onTouchStart={Keyboard.dismiss} style={styles.container}>
-          <Navbar title="My ToDo :)" />
-          <View style={styles.wrapper}>{contetn}</View>
-        </View>
-      </TodoState>
-    </ScreenState>
+    <ActiveTodoIdContext.Provider value={{ activeTodoId, setActiveTodoId }}>
+      <View onTouchStart={Keyboard.dismiss} style={styles.container}>
+        <Navbar title="My ToDo :)" />
+        <View style={styles.wrapper}>{contetn}</View>
+      </View>
+    </ActiveTodoIdContext.Provider>
   );
 };
 
