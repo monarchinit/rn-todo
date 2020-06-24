@@ -14,9 +14,9 @@ export const Todo = ({ todo, onRemove }) => {
     <TouchableOpacity
       onPress={() => {
         changeScreenState({ type: screenTypes.TODO_SCREEN });
-        setActiveTodoId(todo.id);
+        setActiveTodoId(todo._id);
       }}
-      onLongPress={() => onRemove(todo.id)}
+      onLongPress={() => onRemove(todo._id)}
     >
       <View style={styles.wrapper}>
         <AppTextBold style={styles.text}>{todo.value}</AppTextBold>

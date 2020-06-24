@@ -18,11 +18,11 @@ export const TodoScreen = () => {
   const { removeItem, changeSaveTodo, todos } = useContext(TodoContext);
 
   const handleSave = (value) => {
-    changeSaveTodo(activeTodo.id, value);
+    changeSaveTodo(activeTodo._id, value);
     setModal(false);
   };
 
-  const activeTodo = todos.find((el) => el.id == activeTodoId);
+  const activeTodo = todos.find((el) => el._id == activeTodoId);
 
   return (
     <View style={styles.container}>
@@ -44,7 +44,7 @@ export const TodoScreen = () => {
         <AppTextBold>{activeTodo.value}</AppTextBold>
       </AppCard>
       <View style={styles.buttonContainer}>
-        <AppButton onPress={() => removeItem(activeTodo.id)} color={THEME.RED}>
+        <AppButton onPress={() => removeItem(activeTodo._id)} color={THEME.RED}>
           <MaterialCommunityIcons
             name="delete-circle"
             size={24}

@@ -1,16 +1,41 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useCallback, useState } from "react";
 import { FlatList, Image, StyleSheet, View } from "react-native";
 import { AddItem } from "../components/AddItem";
 import { Todo } from "../components/Todo";
 import { TodoContext } from "../context/todo/todoContext";
+import { AppLoader } from "../ui/AppLoader";
 
 export const MainScreen = () => {
-  const { todos, addTodo, removeItem } = useContext(TodoContext);
+  const {
+    todos,
+    addTodo,
+    removeItem,
+    getTodos,
+    showLoader,
+    hideLoader,
+    loading,
+  } = useContext(TodoContext);
+  const loadTodos = useCallback(async () => await getTodos(), [getTodos]);
+  useEffect(async () => {
+    showLoader();
+    await loadTodos();
+    hideLoader();
+  }, []);
+  const [refreshing, changeRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    changeRefreshing(true);
+    await getTodos();
+    changeRefreshing(false);
+  };
+
   let content = (
     <FlatList
       data={todos}
       renderItem={({ item }) => <Todo todo={item} onRemove={removeItem} />}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item._id}
+      refreshing={refreshing}
+      onRefresh={handleRefresh}
     ></FlatList>
   );
 
@@ -24,10 +49,13 @@ export const MainScreen = () => {
       </View>
     );
   }
+  console.log(loading, "loading");
   return (
     <>
       <AddItem addItem={addTodo} />
-      <View style={styles.contentWrap}>{content}</View>
+      <View style={styles.contentWrap}>
+        {loading ? <AppLoader size="large" /> : content}
+      </View>
     </>
   );
 };

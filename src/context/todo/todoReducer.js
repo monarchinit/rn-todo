@@ -10,14 +10,14 @@ import {
 } from "./todoTypes";
 
 const handlers = {
-  [ADD_TODO]: (state, { value }) => ({
+  [ADD_TODO]: (state, { data }) => ({
     ...state,
-    todos: [...state.todos, { id: Date.now().toString(), value }],
+    todos: [...state.todos, data],
   }),
   [UPDATE_TODO]: (state, { id, value }) => ({
     ...state,
     todos: state.todos.map((el) => {
-      if (el.id === id) {
+      if (el._id === id) {
         el.value = value;
       }
       return el;
@@ -25,13 +25,13 @@ const handlers = {
   }),
   [DELETE_TODO]: (state, { id }) => ({
     ...state,
-    todos: state.todos.filter((el) => el.id !== id),
+    todos: state.todos.filter((el) => el._id !== id),
   }),
   [SHOW_LOADER]: (state) => ({ ...state, loading: true }),
   [HIDE_LOADER]: (state) => ({ ...state, loading: false }),
-  [SHOW_ERROR]: (state, { payload }) => ({ ...state, error: payload.error }),
+  [SHOW_ERROR]: (state, payload) => ({ ...state, error: payload.error }),
   [CLEAR_ERROR]: (state) => ({ ...state, error: null }),
-  [FETCH_TODOS]: (state, { payload }) => ({ ...state, todos: payload.todos }),
+  [FETCH_TODOS]: (state, payload) => ({ ...state, todos: payload.todos }),
   DEFAULT: (state, payload) => state,
 };
 
