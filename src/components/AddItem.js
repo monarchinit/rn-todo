@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { THEME } from "../constans";
+import { THEME, inputStyle } from "../constans";
 import { AppButton } from "../ui/AppButton";
 
 export const AddItem = ({ addItem }) => {
@@ -40,16 +40,7 @@ export const AddItem = ({ addItem }) => {
 
 const styles = StyleSheet.create({
   wrapper: { width: "100%", height: 110 },
-  input: {
-    height: 40,
-    borderColor: THEME.RED,
-    borderBottomWidth: 1,
-    textAlign: "center",
-    fontSize: 20,
-    margin: 10,
-    color: THEME.DARK,
-    fontFamily: "Os-reg",
-  },
+  input: inputStyle,
   button: { fontSize: 25, width: 100, height: 30, color: "gray" },
   wrapperButton: {
     width: "100%",

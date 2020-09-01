@@ -4,6 +4,7 @@ const handlers = {
   ["AUTH_SCREEN"]: (_, type) => type,
   ["MAIN_SCREEN"]: (_, type) => type,
   ["TODO_SCREEN"]: (_, type) => type,
+  ["ERROR_SCREEN"]: (_, type) => type,
   DEFAULT: (state, _) => state,
 };
 

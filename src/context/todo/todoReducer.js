@@ -29,7 +29,7 @@ const handlers = {
   }),
   [SHOW_LOADER]: (state) => ({ ...state, loading: true }),
   [HIDE_LOADER]: (state) => ({ ...state, loading: false }),
-  [SHOW_ERROR]: (state, payload) => ({ ...state, error: payload.error }),
+  [SHOW_ERROR]: (state, { error }) => ({ ...state, error }),
   [CLEAR_ERROR]: (state) => ({ ...state, error: null }),
   [FETCH_TODOS]: (state, payload) => ({ ...state, todos: payload.todos }),
   DEFAULT: (state, payload) => state,

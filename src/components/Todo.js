@@ -4,17 +4,21 @@ import { THEME } from "../constans";
 import { AppTextBold } from "../ui/AppTextBold";
 import { ScreenContext } from "../context/screen/screenContext";
 import screenTypes from "../context/screen/screenTypes";
-import { ActiveTodoIdContext } from "../context/activeTodoIdContext/ActiveTodoIdContext";
+import { ActiveTodoIdContext } from "../context/activeTodoId/activeTodoIdContext";
+import { CHANGE_ACTIVE_TODO_ID } from "../context/activeTodoId/activeTodoIdTypes";
 
 export const Todo = ({ todo, onRemove }) => {
   const { changeScreenState } = useContext(ScreenContext);
-  const { setActiveTodoId } = useContext(ActiveTodoIdContext);
+  const { changeActiveTodoId } = useContext(ActiveTodoIdContext);
 
   return (
     <TouchableOpacity
       onPress={() => {
+        changeActiveTodoId({
+          type: CHANGE_ACTIVE_TODO_ID,
+          payload: { id: todo._id },
+        });
         changeScreenState({ type: screenTypes.TODO_SCREEN });
-        setActiveTodoId(todo._id);
       }}
       onLongPress={() => onRemove(todo._id)}
     >

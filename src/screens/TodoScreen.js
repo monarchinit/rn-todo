@@ -7,7 +7,7 @@ import { EditModal } from "../components/EditModal";
 import { AppTextBold } from "../ui/AppTextBold";
 import { AppButton } from "../ui/AppButton";
 import { ScreenContext } from "../context/screen/screenContext";
-import { ActiveTodoIdContext } from "../context/activeTodoIdContext/ActiveTodoIdContext";
+import { ActiveTodoIdContext } from "../context/activeTodoId/activeTodoIdContext";
 import { TodoContext } from "../context/todo/todoContext";
 import screenTypes from "../context/screen/screenTypes";
 

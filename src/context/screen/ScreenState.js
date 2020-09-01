@@ -3,7 +3,7 @@ import { ScreenContext } from "./screenContext";
 import { screenReducer } from "./screenReducer";
 import screenTypes from "./screenTypes";
 export const ScreenState = ({ children }) => {
-  const [state, dispatch] = useReducer(screenReducer, screenTypes.MAIN_SCREEN);
+  const [state, dispatch] = useReducer(screenReducer, screenTypes.AUTH_SCREEN);
   const changeScreenState = (action) => {
     dispatch(action);
   };

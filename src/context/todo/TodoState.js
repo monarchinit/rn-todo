@@ -24,15 +24,6 @@ axios.defaults.headers.common["Authorization"] =
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.patch["Content-Type"] = "application/json";
 
-const fetchAPI = async (url, method, _body) => {
-  try {
-    const res = await axios({ url, method, data: _body });
-    return res.data;
-  } catch (e) {
-    console.log(e, "error");
-  }
-};
-
 export const TodoState = ({ children }) => {
   const [state, dispatch] = useReducer(todoReducer, initialState);
   const { changeScreenState } = useContext(ScreenContext);
@@ -41,8 +32,10 @@ export const TodoState = ({ children }) => {
     const res = await fetchAPI("todos", "POST", { value });
     dispatch({ type: ADD_TODO, payload: { data: res.todo } });
   };
-  const changeSaveTodo = (id, value) =>
+  const changeSaveTodo = (id, value) => {
     dispatch({ type: UPDATE_TODO, payload: { id, value } });
+    fetchAPI("todos", "PATCH", { todoId: id, value });
+  };
   const removeItem = (id) => {
     const activeTodo = state.todos.find((el) => el._id === id);
     Alert.alert(
@@ -55,9 +48,10 @@ export const TodoState = ({ children }) => {
         },
         {
           text: "OK",
-          onPress: () => {
+          onPress: async () => {
+            await fetchAPI("todos", "DELETE", { todoId: id });
             changeScreenState({ type: screenTypes.MAIN_SCREEN });
-            dispatch({ type: DELETE_TODO, payload: { id } });
+            dispatch({ type: DELETE_TODO, payload: { id: id } });
           },
         },
       ],
@@ -66,14 +60,32 @@ export const TodoState = ({ children }) => {
   };
   const fetchTodos = async () => {
     const response = await fetchAPI("todos", "GET");
-    console.log(response.todos, "response");
-    dispatch({ type: FETCH_TODOS, payload: { todos: response.todos } });
+    dispatch({ type: FETCH_TODOS, payload: { todos: response?.todos } });
   };
   const showLoader = () => dispatch({ type: SHOW_LOADER });
   const hideLoader = () => dispatch({ type: HIDE_LOADER });
   const showError = (error) =>
     dispatch({ type: SHOW_ERROR, payload: { error } });
   const clearError = () => dispatch({ type: CLEAR_ERROR });
+
+  async function fetchAPI(url, method, _body) {
+    clearError();
+    showLoader();
+    try {
+      const res = await axios({
+        url,
+        method,
+        data: _body,
+      });
+      return res?.data;
+    } catch (e) {
+      showError("Something went wrong ...");
+      changeScreenState({ type: screenTypes.ERROR_SCREEN });
+      console.log(e, "error");
+    } finally {
+      hideLoader();
+    }
+  }
 
   return (
     <TodoContext.Provider

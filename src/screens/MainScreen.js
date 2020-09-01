@@ -6,26 +6,26 @@ import { TodoContext } from "../context/todo/todoContext";
 import { AppLoader } from "../ui/AppLoader";
 
 export const MainScreen = () => {
-  const {
-    todos,
-    addTodo,
-    removeItem,
-    getTodos,
-    showLoader,
-    hideLoader,
-    loading,
-  } = useContext(TodoContext);
+  const [didMount, setDidMount] = useState(false);
+  const { todos, addTodo, removeItem, getTodos, loading } = useContext(
+    TodoContext
+  );
+
   const loadTodos = useCallback(async () => await getTodos(), [getTodos]);
-  useEffect(async () => {
-    showLoader();
-    await loadTodos();
-    hideLoader();
-  }, []);
+  useEffect(() => {
+    setDidMount(true);
+    async function fetchApi() {
+      await loadTodos();
+    }
+    fetchApi();
+
+    return () => setDidMount(false);
+  }, [loadTodos]);
   const [refreshing, changeRefreshing] = useState(false);
 
   const handleRefresh = async () => {
     changeRefreshing(true);
-    await getTodos();
+    await loadTodos();
     changeRefreshing(false);
   };
 
@@ -39,7 +39,7 @@ export const MainScreen = () => {
     ></FlatList>
   );
 
-  if (!todos.length) {
+  if (!todos?.length === 0) {
     content = (
       <View style={styles.imgWrap}>
         <Image
@@ -49,15 +49,17 @@ export const MainScreen = () => {
       </View>
     );
   }
-  console.log(loading, "loading");
-  return (
+  if (!didMount) {
+    return null;
+  }
+  return didMount ? (
     <>
       <AddItem addItem={addTodo} />
       <View style={styles.contentWrap}>
         {loading ? <AppLoader size="large" /> : content}
       </View>
     </>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({
